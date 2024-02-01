@@ -15,30 +15,40 @@ import com.joincoded.bankapi.utils.Routes.Companion.loginRoute
 import com.joincoded.bankapi.utils.Routes.Companion.signupRoute
 import com.joincoded.bankapi.utils.Routes.Companion.welcomeScreenRoute
 import com.joincoded.bankapi.utils.Routes.Companion.withdrawRoute
+import com.joincoded.bankapi.viewModel.BankViewModel
 
 @Composable
 fun NavScreen() {
     val navController = rememberNavController()
+    val viewModel: BankViewModel = viewModel()
 
-    NavHost(navController = navController, startDestination = welcomeScreenRoute) {
+
+    var startDestination = welcomeScreenRoute
+    if (viewModel.token?.token != null) {
+        startDestination = loginRoute
+        navController.navigate(loginRoute)
+    }
+
+
+    NavHost(navController = navController, startDestination = startDestination) {
         composable(welcomeScreenRoute) {
-            WelcomeScreen(navController = navController)
+            WelcomeScreen(navController = navController, viewModel)
         }
 
         composable(signupRoute) {
-            SignUpScreen(navController = navController)
+            SignUpScreen(viewModel)
         }
 
         composable(loginRoute){
-            BankMainScreen(navController = navController)
+            BankMainScreen(navController = navController, viewModel)
         }
 
         composable(depositRoute){
-            DepositeScreen(navController = navController)
+            DepositeScreen(navController = navController, viewModel)
         }
 
         composable(withdrawRoute){
-            WithdrawScreen(navController = navController)
+            WithdrawScreen(navController = navController, viewModel)
         }
     }
 }

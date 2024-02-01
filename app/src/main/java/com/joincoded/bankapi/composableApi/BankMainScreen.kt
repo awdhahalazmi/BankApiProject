@@ -1,6 +1,7 @@
 package com.joincoded.bankapi.composableApi
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,7 +11,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
@@ -44,6 +47,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.joincoded.bankapi.R
+import com.joincoded.bankapi.data.Transaction
 import com.joincoded.bankapi.ui.theme.kfhColor
 import com.joincoded.bankapi.utils.Routes
 import com.joincoded.bankapi.utils.Routes.Companion.depositRoute
@@ -64,13 +68,9 @@ fun BankMainScreen(
     viewModel: BankViewModel = viewModel(),
 ) {
 
-//////////////////////////////////////////////////////////////////////
     var username by remember { mutableStateOf("") }
-
-
     var profileImage = painterResource(id = R.drawable.profile)
 
-    viewModel.getAccountInfo()
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(onClick = { navController.navigate(trasferRoute) }) {
@@ -79,7 +79,9 @@ fun BankMainScreen(
         }
     ) { padding ->
         Column(
-            modifier = Modifier.fillMaxWidth().padding(padding),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(padding),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.End
         ) {
@@ -125,7 +127,7 @@ fun BankMainScreen(
 
                 Text(
                     modifier = Modifier.padding(top = 12.dp),
-                    text = "${viewModel.getAccountInfo()}", textAlign = TextAlign.Left,
+                    text = "${viewModel.currentUser?.username}", textAlign = TextAlign.Left,
                     fontSize = 25.sp
                 )
 
@@ -139,7 +141,7 @@ fun BankMainScreen(
                 Text(
                     modifier = Modifier.padding(start = 60.dp, top = 0.dp),
                     textAlign = TextAlign.Left,
-                    text = "Balance: 302.6KWD",
+                    text = "${viewModel.currentUser?.balance}",
                     fontSize = 30.sp,
                     color = kfhColor,
                     fontWeight = FontWeight.SemiBold
@@ -157,7 +159,7 @@ fun BankMainScreen(
                             .width(140.dp),
                         colors = ButtonDefaults.buttonColors(containerColor = Color.White),
                         onClick = {
-                            navController.navigate(Routes.depositRoute)
+                            navController.navigate(depositRoute)
 
                             viewModel.deposit(0.0)
                         },
@@ -201,6 +203,10 @@ fun BankMainScreen(
             }
 
             Spacer(modifier = Modifier.height(30.dp))
+            Column {
+                Text(text = "Offers")
+
+            }
             LazyRow(
 
 
@@ -260,12 +266,32 @@ fun BankMainScreen(
                 }
 
 
+
+
+
             }
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp)
+                    .height(100.dp)
+                    .background(kfhColor)
+            ){
+            LazyRow(modifier = Modifier ){
+
+               item { Transaction("User123", "Deposit", 500.0, 500.0)}
+                item{Transaction("User456", "Withdraw", 200.0, 300.0)}
+                item{Transaction("User789", "Transfer", 100.0, 200.0)}
+                item{Transaction("User234", "Transfer", 50.0, 250.0)}
+                item{Transaction("User567", "Deposit", 300.0, 550.0)}
 
 
-        }
+
+                }}
+
+        }}
     }
-}
+
 
 
 

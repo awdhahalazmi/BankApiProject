@@ -47,15 +47,13 @@ import com.joincoded.bankapi.viewModel.BankViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SignUpScreen(navController: NavController = rememberNavController(),
-    viewModel: BankViewModel = viewModel()) {
+fun SignUpScreen(
+    viewModel: BankViewModel = viewModel(),
+) {
 
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var image by remember { mutableStateOf("") }
-
-
-
 
     Column(
         verticalArrangement = Arrangement.Top,
@@ -132,18 +130,15 @@ fun SignUpScreen(navController: NavController = rememberNavController(),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center,
                     modifier = Modifier.fillMaxWidth(),
-
-                    ) {
+                ) {
                     Button(
                         modifier = Modifier.padding(16.dp),
                         colors = ButtonDefaults.buttonColors(containerColor = kfhColor),
                         onClick = {
-                            navController.navigate(loginRoute)
-                              viewModel.signup(username, password,"")
+                            viewModel.signup(username, password, "")
                         },
                         shape = RoundedCornerShape(30)
                     ) {
-
                         Text(
                             "Sign Up ",
 

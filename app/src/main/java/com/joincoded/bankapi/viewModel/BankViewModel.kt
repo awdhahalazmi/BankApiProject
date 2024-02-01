@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
 
-class BankViewModel() : ViewModel() {
+class BankViewModel : ViewModel() {
     private val apiService = RetrofitHelper.getInstance().create(BankApiService::class.java)
     var token: TokenResponse? by mutableStateOf(null)
     var currentUser: User? by mutableStateOf(null)
@@ -28,24 +28,22 @@ class BankViewModel() : ViewModel() {
     var balance: Double = 0.0
     // variable for balance = 0.0
 
+    init {
+        retrieveToken()
+    }
+
     private val sharedPreferences = application?.getSharedPreferences(
         "Saved account", Context.MODE_PRIVATE
     )
 
-
-    init {
-//        token = TokenResponse(retrieveToken())
-
-    }
-
     // Retrieve the token from SharedPreferences
-    private fun retrieveToken(): String? {
+    fun retrieveToken(): String? {
         return sharedPreferences?.getString(sharedPreferencesKey, null)
     }
 
     // Save the token to SharedPreferences
     private fun saveToken(token: String?) {
-        sharedPreferences?.edit()?.putString(sharedPreferencesKey, token)?.apply()
+        sharedPreferences?.edit()?.putString(sharedPreferencesKey, token)?.commit()
     }
 
     fun signup(username: String, password: String, image: String = "") {
@@ -54,6 +52,7 @@ class BankViewModel() : ViewModel() {
                 val response = apiService.signup(User(username, password, image, 0.0, null))
                 token = response.body()
                 saveToken(token?.token)
+                getAccountInfo()
             } catch (e: Exception) {
                 println("Error $e")
             }
@@ -70,6 +69,7 @@ class BankViewModel() : ViewModel() {
                 println(response.body())
                 token = response.body()
                 saveToken(token?.token)
+                getAccountInfo()
             } catch (e: Exception) {
                 println("Error $e")
             }
@@ -79,17 +79,18 @@ class BankViewModel() : ViewModel() {
     fun deposit(amount: Double) {
         viewModelScope.launch {
             try {
-               if (token != null && currentUser != null) {
-                   val response =
-                       apiService.deposit(token = token?.getBearerToken(), AmountChange(amount))
-                  if(response.isSuccessful){
-                      updateBalance(amount + balance)
+                if (token != null && currentUser != null) {
+                    val response =
+                        apiService.deposit(token = token?.getBearerToken(), AmountChange(amount))
+                    if (response.isSuccessful) {
+                        updateBalance(amount + balance)
 
 
-                   println("Successful Deposit. Amount: $amount")}
-               }else{
-                   print("please log in ")
-               }
+                        println("Successful Deposit. Amount: $amount")
+                    }
+                } else {
+                    print("please log in ")
+                }
 
 
             } catch (e: Exception) {
@@ -105,12 +106,13 @@ class BankViewModel() : ViewModel() {
                 if (token != null && currentUser != null) {
                     val response =
                         apiService.withdraw(token = token?.getBearerToken(), AmountChange(amount))
-                    if(amount<= balance){
+                    if (amount <= balance) {
                         updateBalance(amount - balance)
 
-                        println("Successful Withdraw. Amount: $amount")}
+                        println("Successful Withdraw. Amount: $amount")
+                    }
 
-                }else{
+                } else {
                     print("please log in ")
 
                 }
@@ -185,25 +187,21 @@ class BankViewModel() : ViewModel() {
     fun getAccountInfo() {
         viewModelScope.launch {
             try {
-
                 currentUser = apiService.getAccountInfo(token?.getBearerToken())
-
-           getAccountInfo()
-
-
-
-
+                println(currentUser?.username)
             } catch (e: Exception) {
                 println("Error $e")
             }
         }
     }
+
     fun updateBalance(newBalance: Double) {
         viewModelScope.launch {
             balance = newBalance
             try {
                 if (token != null) {
-                    val response = apiService.deposit(token?.getBearerToken(), AmountChange(newBalance))
+                    val response =
+                        apiService.deposit(token?.getBearerToken(), AmountChange(newBalance))
                     if (response.isSuccessful) {
                         println("Balance updated successfully. New Balance: $newBalance")
                     } else {
@@ -214,8 +212,10 @@ class BankViewModel() : ViewModel() {
                 }
             } catch (e: Exception) {
                 println("Error $e")
-          }  }
-     }}
+            }
+        }
+    }
+}
 
 
 

@@ -82,10 +82,8 @@ import com.joincoded.bankapi.viewModel.BankViewModel
 //}
 
 
-
-
 @Composable
-fun WelcomeScreen(navController: NavController,viewModel: BankViewModel = viewModel()) {
+fun WelcomeScreen(navController: NavController, viewModel: BankViewModel = viewModel()) {
 
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -114,14 +112,17 @@ fun WelcomeScreen(navController: NavController,viewModel: BankViewModel = viewMo
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text(text = "Welcome to KFH !",
-            fontSize = 25.sp
-            , fontWeight = FontWeight.Bold)
+        Text(
+            text = "Welcome to KFH !",
+            fontSize = 25.sp, fontWeight = FontWeight.Bold
+        )
         Spacer(modifier = Modifier.height(16.dp))
 
-        Row(modifier = Modifier){
-            Text(text="Login to your account ", textAlign = TextAlign.Left,
-                fontSize = 21.sp)
+        Row(modifier = Modifier) {
+            Text(
+                text = "Login to your account ", textAlign = TextAlign.Left,
+                fontSize = 21.sp
+            )
         }
         Spacer(modifier = Modifier.height(20.dp))
         TextField(
@@ -137,44 +138,50 @@ fun WelcomeScreen(navController: NavController,viewModel: BankViewModel = viewMo
             label = { Text("Enter Password") },
             visualTransformation = PasswordVisualTransformation()
         )
-        Spacer(modifier = Modifier
-            .height(25.dp)
-            .padding(40.dp))
+        Spacer(
+            modifier = Modifier
+                .height(25.dp)
+                .padding(40.dp)
+        )
 
-        Column(horizontalAlignment = Alignment.CenterHorizontally,
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
             modifier = Modifier.fillMaxWidth(),
 
 
             ) {
-            Button( colors = ButtonDefaults.buttonColors(containerColor = kfhColor)
-                , onClick = {
-                    navController.navigate(loginRoute)
-                    viewModel.login(username, password)
-                } , shape = RoundedCornerShape(30)) {
-                Text("Log In",
+            Button(colors = ButtonDefaults.buttonColors(containerColor = kfhColor), onClick = {
+                viewModel.login(username, password)
+            }, shape = RoundedCornerShape(30)) {
+                Text(
+                    "Log In",
 
                     modifier = Modifier
                         .width(150.dp)
                         .height(30.dp),
                     color = Color.White,
                     textAlign = TextAlign.Center,
-                    fontSize = 18.sp)
+                    fontSize = 18.sp
+                )
             }
             Spacer(modifier = Modifier.width(100.dp))
 
-            OutlinedButton( colors = ButtonDefaults.buttonColors(containerColor = Color.White),
+            OutlinedButton(colors = ButtonDefaults.buttonColors(containerColor = Color.White),
                 onClick = {
 
                     navController.navigate(signupRoute)
 //                    viewModel.signup(username, password)
-            }, shape = RoundedCornerShape(30)) {
-                Text("Sign Up", modifier = Modifier
-                    .width(150.dp)
-                    .height(30.dp),
+                }, shape = RoundedCornerShape(30)
+            ) {
+                Text(
+                    "Sign Up", modifier = Modifier
+                        .width(150.dp)
+                        .height(30.dp),
                     color = kfhColor,
                     textAlign = TextAlign.Center,
-                    fontSize = 18.sp)
+                    fontSize = 18.sp
+                )
             }
         }
 
