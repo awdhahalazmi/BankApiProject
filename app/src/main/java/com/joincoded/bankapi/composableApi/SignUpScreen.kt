@@ -40,15 +40,15 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.joincoded.bankapi.R
 import com.joincoded.bankapi.ui.theme.kfhColor
+import com.joincoded.bankapi.utils.Routes
+import com.joincoded.bankapi.utils.Routes.Companion.loginRoute
 import com.joincoded.bankapi.viewModel.BankViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SignUpScreen(
-    viewModel: BankViewModel = viewModel(),
-    navController: NavController = rememberNavController()
-) {
+fun SignUpScreen(navController: NavController = rememberNavController(),
+    viewModel: BankViewModel = viewModel()) {
 
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -138,6 +138,7 @@ fun SignUpScreen(
                         modifier = Modifier.padding(16.dp),
                         colors = ButtonDefaults.buttonColors(containerColor = kfhColor),
                         onClick = {
+                            navController.navigate(loginRoute)
                               viewModel.signup(username, password,"")
                         },
                         shape = RoundedCornerShape(30)

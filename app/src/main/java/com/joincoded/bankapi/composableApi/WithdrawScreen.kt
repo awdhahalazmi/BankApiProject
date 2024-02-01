@@ -32,13 +32,18 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.joincoded.bankapi.R
 import com.joincoded.bankapi.ui.theme.kfhColor
+import com.joincoded.bankapi.utils.Routes
+import com.joincoded.bankapi.utils.Routes.Companion.withdrawRoute
 import com.joincoded.bankapi.viewModel.BankViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun WithdrawScreen(viewModel: BankViewModel = viewModel()) {
+fun WithdrawScreen(navController: NavController = rememberNavController(),
+                   viewModel: BankViewModel = viewModel()) {
     var username by remember { mutableStateOf("") }
     var amount by remember { mutableStateOf("") }
     var balance by remember { mutableStateOf("") }

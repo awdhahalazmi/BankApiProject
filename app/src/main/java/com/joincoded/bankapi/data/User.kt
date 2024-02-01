@@ -5,9 +5,8 @@ data class User(
     var password: String,
     var image: String?,
     var balance: Double?,
-    var token: String?
-)
-{
- constructor (username: String, password: String): this(username, password,"",0.0,"")
-
+    var token: String?,
+) {
+    constructor (username: String, password: String) : this(username, password, "", 0.0, "")
+    constructor (username: String, balance: Double?) : this(username, "", "", 0.0, "")
 }

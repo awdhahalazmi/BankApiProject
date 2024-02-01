@@ -39,11 +39,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.NavHost
+
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.joincoded.bankapi.R
 import com.joincoded.bankapi.ui.theme.kfhColor
+import com.joincoded.bankapi.utils.Routes
+import com.joincoded.bankapi.utils.Routes.Companion.loginRoute
+import com.joincoded.bankapi.utils.Routes.Companion.signupRoute
 import com.joincoded.bankapi.viewModel.BankViewModel
 
 //@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -86,7 +89,6 @@ fun WelcomeScreen(navController: NavController,viewModel: BankViewModel = viewMo
 
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    val navController = rememberNavController()
 
 
     Column(
@@ -147,7 +149,7 @@ fun WelcomeScreen(navController: NavController,viewModel: BankViewModel = viewMo
             ) {
             Button( colors = ButtonDefaults.buttonColors(containerColor = kfhColor)
                 , onClick = {
-
+                    navController.navigate(loginRoute)
                     viewModel.login(username, password)
                 } , shape = RoundedCornerShape(30)) {
                 Text("Log In",
@@ -164,8 +166,8 @@ fun WelcomeScreen(navController: NavController,viewModel: BankViewModel = viewMo
             OutlinedButton( colors = ButtonDefaults.buttonColors(containerColor = Color.White),
                 onClick = {
 
-                    navController.navigate("signupRoute")
-                    viewModel.signup(username, password)
+                    navController.navigate(signupRoute)
+//                    viewModel.signup(username, password)
             }, shape = RoundedCornerShape(30)) {
                 Text("Sign Up", modifier = Modifier
                     .width(150.dp)

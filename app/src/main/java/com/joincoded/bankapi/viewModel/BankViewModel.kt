@@ -83,7 +83,7 @@ class BankViewModel() : ViewModel() {
                    val response =
                        apiService.deposit(token = token?.getBearerToken(), AmountChange(amount))
                   if(response.isSuccessful){
-                      updateBalance(balance + amount)
+                      updateBalance(amount + balance)
 
 
                    println("Successful Deposit. Amount: $amount")}
@@ -106,7 +106,7 @@ class BankViewModel() : ViewModel() {
                     val response =
                         apiService.withdraw(token = token?.getBearerToken(), AmountChange(amount))
                     if(amount<= balance){
-                        updateBalance(balance - amount)
+                        updateBalance(amount - balance)
 
                         println("Successful Withdraw. Amount: $amount")}
 
@@ -188,7 +188,10 @@ class BankViewModel() : ViewModel() {
 
                 currentUser = apiService.getAccountInfo(token?.getBearerToken())
 
-                // balance ( state )  = balance from getAccountInfo
+           getAccountInfo()
+
+
+
 
             } catch (e: Exception) {
                 println("Error $e")
