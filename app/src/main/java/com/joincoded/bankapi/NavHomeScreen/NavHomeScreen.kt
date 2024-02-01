@@ -8,11 +8,14 @@ import androidx.navigation.compose.rememberNavController
 import com.joincoded.bankapi.composableApi.BankMainScreen
 import com.joincoded.bankapi.composableApi.DepositeScreen
 import com.joincoded.bankapi.composableApi.SignUpScreen
+import com.joincoded.bankapi.composableApi.TransferScreen
 import com.joincoded.bankapi.composableApi.WelcomeScreen
 import com.joincoded.bankapi.composableApi.WithdrawScreen
+import com.joincoded.bankapi.utils.Routes
 import com.joincoded.bankapi.utils.Routes.Companion.depositRoute
 import com.joincoded.bankapi.utils.Routes.Companion.loginRoute
 import com.joincoded.bankapi.utils.Routes.Companion.signupRoute
+import com.joincoded.bankapi.utils.Routes.Companion.trasferRoute
 import com.joincoded.bankapi.utils.Routes.Companion.welcomeScreenRoute
 import com.joincoded.bankapi.utils.Routes.Companion.withdrawRoute
 import com.joincoded.bankapi.viewModel.BankViewModel
@@ -49,6 +52,9 @@ fun NavScreen() {
 
         composable(withdrawRoute){
             WithdrawScreen(navController = navController, viewModel)
+        }
+        composable(trasferRoute){
+            TransferScreen(navController = navController, viewModel)
         }
     }
 }

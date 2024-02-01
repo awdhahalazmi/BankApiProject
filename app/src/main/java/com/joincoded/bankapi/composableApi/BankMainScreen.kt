@@ -1,7 +1,6 @@
 package com.joincoded.bankapi.composableApi
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,22 +10,17 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.currentComposer
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -43,23 +37,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.joincoded.bankapi.R
-import com.joincoded.bankapi.data.Transaction
 import com.joincoded.bankapi.ui.theme.kfhColor
 import com.joincoded.bankapi.utils.Routes
 import com.joincoded.bankapi.utils.Routes.Companion.depositRoute
 import com.joincoded.bankapi.utils.Routes.Companion.trasferRoute
 import com.joincoded.bankapi.viewModel.BankViewModel
 
-
-@Composable
-fun Transfer() {
-    val navController = rememberNavController()
-
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -68,13 +53,21 @@ fun BankMainScreen(
     viewModel: BankViewModel = viewModel(),
 ) {
 
-    var username by remember { mutableStateOf("") }
+
     var profileImage = painterResource(id = R.drawable.profile)
 
     Scaffold(
+
         floatingActionButton = {
             FloatingActionButton(onClick = { navController.navigate(trasferRoute) }) {
-                Text("Transfer", fontWeight = FontWeight.SemiBold)
+                Image(
+                    modifier = Modifier
+                        .height(50.dp)
+                        .width(50.dp),
+                    painter = painterResource(id = R.drawable.transfer),
+                    contentDescription = null
+                )
+                //   Text("Transfer", fontWeight = FontWeight.SemiBold)
             }
         }
     ) { padding ->
@@ -120,13 +113,14 @@ fun BankMainScreen(
                     painter = profileImage,
                     contentDescription = null,
                     modifier = Modifier
-                        .size(60.dp)
+                        .width(50.dp)
+                        .height(90.dp)
                         .clip(CircleShape)
                         .padding(top = 10.dp)
                 )
 
                 Text(
-                    modifier = Modifier.padding(top = 12.dp),
+                    modifier = Modifier.padding(top = 30.dp),
                     text = "${viewModel.currentUser?.username}", textAlign = TextAlign.Left,
                     fontSize = 25.sp
                 )
@@ -139,24 +133,24 @@ fun BankMainScreen(
                 horizontalAlignment = Alignment.Start
             ) {
                 Text(
-                    modifier = Modifier.padding(start = 60.dp, top = 0.dp),
+                    modifier = Modifier.padding(start = 55.dp, top = 0.dp),
                     textAlign = TextAlign.Left,
-                    text = "${viewModel.currentUser?.balance}",
+                    text = "Balance: ${viewModel.currentUser?.balance}",
                     fontSize = 30.sp,
                     color = kfhColor,
                     fontWeight = FontWeight.SemiBold
                 )
                 Spacer(modifier = Modifier.height(30.dp))
                 Row(
-                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    horizontalArrangement = Arrangement.Absolute.Center,
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(120.dp),
                 ) {
                     OutlinedButton(
                         modifier = Modifier
-                            .height(100.dp)
-                            .width(140.dp),
+                            .height(80.dp)
+                            .width(100.dp),
                         colors = ButtonDefaults.buttonColors(containerColor = Color.White),
                         onClick = {
                             navController.navigate(depositRoute)
@@ -179,8 +173,8 @@ fun BankMainScreen(
 
                     OutlinedButton(
                         modifier = Modifier
-                            .height(100.dp)
-                            .width(140.dp),
+                            .height(80.dp)
+                            .width(100.dp),
                         colors = ButtonDefaults.buttonColors(containerColor = Color.White),
                         onClick = {
                             navController.navigate(Routes.withdrawRoute)
@@ -203,26 +197,41 @@ fun BankMainScreen(
             }
 
             Spacer(modifier = Modifier.height(30.dp))
-            Column {
-                Text(text = "Offers")
-
-            }
             LazyRow(
-
-
                 modifier = Modifier
-
-                    .fillMaxWidth()
-                    .height(150.dp)
+                    .width(400.dp)
+                    .height(200.dp)
                     .padding(bottom = 15.dp),
-
-                horizontalArrangement = Arrangement.SpaceEvenly,
+                verticalAlignment = Alignment.Bottom, horizontalArrangement = Arrangement.End
             ) {
                 item {
                     Image(
                         modifier = Modifier
+                            .clip(RoundedCornerShape(8.dp)).fillMaxWidth(),
+                        painter = painterResource(id = R.drawable.img_1168),
+                        contentDescription = null,
+                        contentScale = ContentScale.Fit
+
+
+                    )
+                }
+
+
+                item {
+                    Image(
+                        modifier = Modifier
                             .clip(RoundedCornerShape(8.dp)),
-                        painter = painterResource(id = R.drawable.offer),
+                        painter = painterResource(id = R.drawable.img_1169),
+                        contentDescription = null,
+
+                        contentScale = ContentScale.Fit
+                    )
+                }
+                item {
+                    Image(
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(8.dp)),
+                        painter = painterResource(id = R.drawable.img_1170),
                         contentDescription = null,
                         contentScale = ContentScale.Fit
 
@@ -240,57 +249,15 @@ fun BankMainScreen(
 
                         contentScale = ContentScale.Fit
                     )
+                    //TrasactionsList(viewModel)
                 }
-                item {
-                    Image(
-                        modifier = Modifier
-                            .clip(RoundedCornerShape(8.dp)),
-                        painter = painterResource(id = R.drawable.offer),
-                        contentDescription = null,
-                        contentScale = ContentScale.Fit
-
-
-                    )
-                }
-
-
-                item {
-                    Image(
-                        modifier = Modifier
-                            .clip(RoundedCornerShape(8.dp)),
-                        painter = painterResource(id = R.drawable.offerr),
-                        contentDescription = null,
-
-                        contentScale = ContentScale.Fit
-                    )
-                }
-
-
-
 
 
             }
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp)
-                    .height(100.dp)
-                    .background(kfhColor)
-            ){
-            LazyRow(modifier = Modifier ){
 
-               item { Transaction("User123", "Deposit", 500.0, 500.0)}
-                item{Transaction("User456", "Withdraw", 200.0, 300.0)}
-                item{Transaction("User789", "Transfer", 100.0, 200.0)}
-                item{Transaction("User234", "Transfer", 50.0, 250.0)}
-                item{Transaction("User567", "Deposit", 300.0, 550.0)}
-
-
-
-                }}
-
-        }}
+        }
     }
+}
 
 
 

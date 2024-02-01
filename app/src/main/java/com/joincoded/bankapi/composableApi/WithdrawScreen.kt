@@ -45,7 +45,7 @@ import com.joincoded.bankapi.viewModel.BankViewModel
 fun WithdrawScreen(navController: NavController = rememberNavController(),
                    viewModel: BankViewModel = viewModel()) {
     var username by remember { mutableStateOf("") }
-    var amount by remember { mutableStateOf("") }
+    var amount by remember { mutableStateOf(0.0) }
     var balance by remember { mutableStateOf("") }
     var image by remember { mutableStateOf("") }
 
@@ -78,32 +78,8 @@ fun WithdrawScreen(navController: NavController = rememberNavController(),
                 verticalArrangement = Arrangement.Center
             ) {
 
-                /// NOTE !!!! Here we can link the image of the user
-
-                Image(
-                    modifier = Modifier
-                        .height(150.dp)
-                        .width(150.dp)
-                        .clip(shape = CircleShape),
-                    painter = painterResource(id = R.drawable.profile),
 
 
-                    contentDescription = null
-                )
-//              NOTE !!!!    print the username
-//                Text(
-//                    modifier = Modifier.padding(6.dp),
-//                    text = "${viewModel.}",
-//                    textAlign = TextAlign.Justify,
-//                    fontSize = 25.sp
-//                )
-                //              NOTE !!!!    print the balance
-//                Text(
-//                    modifier = Modifier.padding(6.dp),
-//                    text = "${viewModel.balance}",
-//                    textAlign = TextAlign.Justify,
-//                    fontSize = 50.sp
-//                )
                 Text(
                     modifier = Modifier.padding(6.dp),
                     text = "Enter the amount:  ",
@@ -113,8 +89,8 @@ fun WithdrawScreen(navController: NavController = rememberNavController(),
 
                 Spacer(modifier = Modifier.height(20.dp))
                 TextField(
-                    value = amount,
-                    onValueChange = { amount = it },
+                    value = amount.toString(),
+                    onValueChange = { amount = it.toDouble() },
                     label = { Text("Enter amount") }
                 )
 
@@ -123,7 +99,7 @@ fun WithdrawScreen(navController: NavController = rememberNavController(),
                     modifier = Modifier.padding(16.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = Color.White),
                     onClick = {
-                        viewModel.withdraw(amount=balance.toDouble())
+                        viewModel.withdraw(amount = amount)
 
                     },
                     shape = RoundedCornerShape(30)

@@ -45,7 +45,7 @@ import com.joincoded.bankapi.viewModel.BankViewModel
 fun DepositeScreen(navController: NavController = rememberNavController()
     ,viewModel: BankViewModel = viewModel()) {
     var username by remember { mutableStateOf("") }
-    var amount by remember { mutableStateOf("") }
+    var amount by remember { mutableStateOf(0.0) }
     var image by remember { mutableStateOf("") }
 
 
@@ -77,25 +77,6 @@ fun DepositeScreen(navController: NavController = rememberNavController()
                 verticalArrangement = Arrangement.Center
             ) {
 
-                /// NOTE !!!! Here we can link the image of the user
-
-                Image(
-                    modifier = Modifier
-                        .height(150.dp)
-                        .width(150.dp)
-                        .clip(shape = CircleShape),
-                    painter = painterResource(id = R.drawable.profile),
-
-
-                    contentDescription = null
-                )
-//              NOTE !!!!    print the username
-//                Text(
-//                    modifier = Modifier.padding(6.dp),
-//                    text = "${viewModel.}",
-//                    textAlign = TextAlign.Justify,
-//                    fontSize = 25.sp
-//                )
                 Text(
                     modifier = Modifier.padding(6.dp),
                     text = "Enter the amount:  ",
@@ -105,8 +86,8 @@ fun DepositeScreen(navController: NavController = rememberNavController()
 
                 Spacer(modifier = Modifier.height(20.dp))
                 TextField(
-                    value = amount,
-                    onValueChange = { amount = it },
+                    value = amount.toString(),
+                    onValueChange = { amount = it.toDouble() },
                     label = { Text("Enter amount") }
                 )
 
@@ -115,7 +96,9 @@ fun DepositeScreen(navController: NavController = rememberNavController()
                     modifier = Modifier.padding(16.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = Color.White),
                     onClick = {
-                          viewModel.deposit(amount = 0.0)
+                          viewModel.deposit(amount = amount)
+                        //viewModel.currentUser?.balance
+
                     },
                     shape = RoundedCornerShape(30)
                 ) {
@@ -130,6 +113,11 @@ fun DepositeScreen(navController: NavController = rememberNavController()
                         textAlign = TextAlign.Center,
                         fontSize = 23.sp
                     )
+
+
+
+
+
 
                 }
 

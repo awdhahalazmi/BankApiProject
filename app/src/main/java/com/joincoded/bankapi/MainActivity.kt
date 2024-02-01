@@ -29,32 +29,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-//                    val viewModel: BankViewModel = viewModel()
-//                    viewModel.application = application
-//                    viewModel.signup("awdhah","123","")
-//                    print(viewModel.token)
-//                    viewModel.login("awdhah","123")
-                    //viewModel.getAccountInfo()
-                    //print(viewModel.currentUser?.username)
 
-//                    Column {
-//
-//
-//                        Button(onClick = {
-//                            viewModel.login("Omar", "12345")
-//                        }) {
-//
-//                        }
-//                        Button(onClick = {
-//                            viewModel.withdraw(20.0)
-//                            viewModel.getAccountInfo()
-//                        }) {
-//
-//                        }
-//                        Greeting(name = "${viewModel.token?.getBearerToken()}")
-                    //SignUpScreen(viewModel)
-                    //WelcomeScreen()
-                    //SignUpScreen()
+
                     NavScreen()
                     }
 
